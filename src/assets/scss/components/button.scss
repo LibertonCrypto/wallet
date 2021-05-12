@@ -1,0 +1,16 @@
+.btn {
+  font-size: 1.3rem;
+  border-radius: 2px;
+  padding: .6rem 1rem;
+  text-decoration: none !important;
+
+  &_secondary {
+    color: #72a0c7;
+    font-weight: 700;
+    text-transform: uppercase;
+
+    &:hover {
+      background: #f2f6fa;
+    }
+  }
+}

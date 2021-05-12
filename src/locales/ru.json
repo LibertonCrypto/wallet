@@ -1,0 +1,74 @@
+{
+  "global": {
+    "wallet": "Кошелек",
+    "account": "Аккаунт",
+    "optional": "необязательно",
+    "password": "Пароль",
+    "view_in_explorer": "Посмотреть в проводнике",
+    "password_confirmation": "Подтверждение пароля",
+    "buttons": {
+      "cancel": "Отменить",
+      "create": "Создать",
+      "back": "Вернуться",
+      "continue": "Продолжить",
+      "deploy": "Загрузить"
+    },
+    "validation": {
+      "wrong_password": "Неверный пароль",
+      "password_required": "Требуется пароль"
+    }
+  },
+  "create": {
+    "account_name": "Account name",
+    "words_count": "{n} words",
+    "phrase": "This is your seed phrase",
+    "heading": "Don't you have an account yet?",
+    "phrase_alert": "Warning! Losing or compromising your seed phrase will result in losing access to your account and all your funds",
+    "buttons": {
+      "generate": "Generate new",
+      "restore": "Restore from seed phrase"
+    }
+  },
+  "receive": {
+    "heading": "Публичные идентификаторы вашего кошелька",
+    "address": "Адрес кошелька",
+    "public_key": "Публичный ключ кошелька"
+  },
+  "transfer": {
+    "heading": "Перевод",
+    "amount": "Сумма",
+    "message": "Комментарий",
+    "fee": "Рассчетная комиссия",
+    "recipient": "Адрес получателя",
+    "buttons": {
+      "transfer": "Перевести"
+    }
+  },
+  "deployment": {
+    "heading": "Загрузка контракта кошелька",
+    "balance": "Баланс адреса",
+    "wallet_contract": "Контракт кошелька",
+    "predicted_address": "Рассчетный адрес",
+    "steps": {
+      "select_contract": "Выберите контракт кошелька",
+      "account_password": "Введите пароль от аккаунта",
+      "send_fees": "Отправьте как минимум 0.1 TON на рассчетный адрес",
+      "everything_ready": "Готово. Можно приступать!"
+    }
+  },
+  "home": {
+    "tabs": {
+      "messages": "Сообщения",
+      "transactions": "Транзакции"
+    },
+    "buttons": {
+      "send": "Отправить",
+      "receive": "Получить",
+      "create_wallet": "Создать новый кошелек"
+    }
+  },
+  "newWalletDialog": {
+    "heading": "Создать новый кошелек",
+    "wallet_name": "Имя кошелька"
+  }
+}

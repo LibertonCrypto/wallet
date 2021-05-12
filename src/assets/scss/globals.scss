@@ -1,0 +1,63 @@
+body {
+  margin: 0;
+  color: #000;
+  background: #fafafa;
+  font-family: 'Rubik', sans-serif;
+}
+
+#app {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 64rem;
+}
+
+.q-scrollarea__content {
+  display: flex;
+}
+
+.q-select__dropdown-icon {
+  font-size: 1rem !important;
+}
+
+.q-btn {
+  .q-icon {
+    font-size: 1.25rem;
+
+    &.on-left {
+      margin-right: .4rem;
+    }
+
+    &.on-right {
+      margin-left: .4rem;
+    }
+  }
+}
+
+.wrapper {
+  flex: 1;
+  width: 100%;
+  background: #fff;
+  overflow: hidden;
+  border-radius: 2px;
+  height: calc(100vh - 20rem);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+
+  & > .q-scrollarea__container > .q-scrollarea__content {
+    padding: 3rem 2rem;
+  }
+}
+
+.heading {
+  margin-top: 0;
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 2rem;
+  margin-bottom: 2rem;
+}

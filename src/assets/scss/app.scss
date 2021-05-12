@@ -1,0 +1,28 @@
+// Line awesome
+$la-font-path: "/fonts/line-awesome";
+
+@import "node_modules/line-awesome/dist/line-awesome/scss/line-awesome";
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap');
+
+// Quasar Styles
+@import "node_modules/quasar/src/css/variables";
+@import "variables";
+@import "node_modules/quasar/src/css/index";
+@import "node_modules/@quasar/extras/line-awesome/line-awesome";
+
+// Global styles
+@import "globals";
+
+// Layout styling
+@import "layout/header",
+  "layout/footer";
+
+// Views
+@import "views/welcome",
+  "views/home",
+  "views/receive",
+  "views/deployment";
+
+// UI Elements
+@import "components/button",
+  "components/transaction-list";

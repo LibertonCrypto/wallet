@@ -1,0 +1,78 @@
+{
+  "global": {
+    "wallet": "Wallet",
+    "account": "Account",
+    "optional": "optional",
+    "password": "Password",
+    "view_in_explorer": "View in Explorer",
+    "password_confirmation": "Password confirmation",
+    "buttons": {
+      "cancel": "Cancel",
+      "create": "Create",
+      "back": "Go back",
+      "continue": "Continue",
+      "deploy": "Deploy"
+    },
+    "validation": {
+      "wrong_password": "Wrong password",
+      "password_required": "Password required"
+    }
+  },
+  "create": {
+    "account_name": "Account name",
+    "words_count": "{n} words",
+    "phrase": "Enter your seed phrase",
+    "heading": "Don't you have an account yet?",
+    "phrase_alert": "Warning! Losing or compromising your seed phrase will result in losing access to your account and all your funds",
+    "buttons": {
+      "generate": "Generate new",
+      "restore": "Restore from seed phrase"
+    },
+    "validation": {
+      "length_required": "Password should be at least 4 symbols length",
+      "do_not_match": "Password do not match"
+    }
+  },
+  "receive": {
+    "heading": "Your wallet public identifiers",
+    "address": "Wallet address",
+    "public_key": "Public key associated with address"
+  },
+  "transfer": {
+    "heading": "Transfer",
+    "amount": "Amount",
+    "message": "Message",
+    "fee": "Estimated fee",
+    "recipient": "Recipient address",
+    "buttons": {
+      "transfer": "Transfer"
+    }
+  },
+  "deployment": {
+    "heading": "Wallet deployment",
+    "balance": "Address balance",
+    "wallet_contract": "Please select wallet contract",
+    "predicted_address": "Predicted address",
+    "steps": {
+      "select_contract": "Select wallet contract",
+      "account_password": "Enter your account password",
+      "send_fees": "Send at least 0.1 TON to your predicted address",
+      "everything_ready": "You're good to go!"
+    }
+  },
+  "home": {
+    "tabs": {
+      "messages": "Messages",
+      "transactions": "Transactions"
+    },
+    "buttons": {
+      "send": "Send",
+      "receive": "Receive",
+      "create_wallet": "Create new wallet"
+    }
+  },
+  "newWalletDialog": {
+    "heading": "Create new wallet",
+    "wallet_name": "New wallet name"
+  }
+}

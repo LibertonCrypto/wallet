@@ -1,0 +1,20 @@
+.header {
+  height: 5rem;
+  display: flex;
+
+  .container {
+    align-items: center;
+  }
+
+  &__logo {
+    flex: 1;
+    color: $primary;
+    font-weight: bold;
+    font-size: 1.25rem;
+  }
+
+  &__menu {
+    display: flex;
+    flex-direction: row;
+  }
+}

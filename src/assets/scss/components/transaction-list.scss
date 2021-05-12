@@ -1,0 +1,36 @@
+.transaction-list {
+  display: flex;
+  flex-direction: column;
+
+  &__id {
+    color: $grey-7;
+    font-size: .75rem;
+  }
+
+  &__item {
+    display: flex;
+    padding: 1rem;
+    align-items: center;
+
+    &:hover {
+      cursor: pointer;
+      background: $grey-2;
+    }
+  }
+
+  &__amount {
+    margin-left: auto;
+
+    &_positive {
+      font-weight: bold;
+      color: $green-13;
+    }
+  }
+
+  &__explorer {
+    font-size: 1.5rem;
+    margin-left: .5rem;
+    line-height: 1.5rem;
+    color: #000 !important;
+  }
+}

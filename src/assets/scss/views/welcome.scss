@@ -1,0 +1,33 @@
+.welcome {
+  width: 100%;
+  flex-direction: column;
+
+  &__warning {
+    margin-bottom: 1rem;
+    border-style: solid;
+    border-color: $orange-6;
+    border-width: 1px 1px 1px 3px;
+
+    .q-icon {
+      font-size: 2rem;
+    }
+  }
+
+  &__phrase {
+    font-size: 1.25rem;
+    padding: 1rem 2rem;
+    margin-bottom: 1rem;
+    background: rgba(0, 0, 0, .05);
+
+    &-container {
+      width: 100%;
+      flex-direction: column;
+    }
+
+    &-header {
+      display: flex;
+      margin-bottom: 1rem;
+      justify-content: flex-end;
+    }
+  }
+}

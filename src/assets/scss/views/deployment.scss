@@ -1,0 +1,21 @@
+.deployment {
+  &__step {
+    display: flex;
+  }
+
+  &__step-n {
+    width: auto;
+    height: 2rem;
+    margin-right: 1rem;
+  }
+
+  &__step-title {
+    margin-top: 0;
+    font-size: 1.25rem;
+    margin-bottom: .5rem;
+  }
+
+  &__step-content {
+    flex: 1;
+  }
+}
