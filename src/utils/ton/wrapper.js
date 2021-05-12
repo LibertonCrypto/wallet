@@ -124,6 +124,10 @@ export class TonWrapper {
     return /[0-9A-Fa-f]{6}/g.test(str)
   }
 
+  isASCII (str) {
+    return /^[\x00-\x7F]*$/.test(str)
+  }
+
   async getDefaultPayload (data) {
     if (! data.comment) {
       return ''

@@ -1,6 +1,7 @@
 import { v4 } from 'uuid'
 import { ton } from '@utils/ton'
 import { i18n } from '@utils/i18n'
+import { toSHA256 } from '@utils/convert'
 import WrongPasswordException from '../utils/exceptions/WrongPasswordException'
 
 export default {
@@ -35,7 +36,7 @@ export default {
         ...account.xprv
       })
 
-      if (!ton.isHex(result.slice(4))) {
+      if (!ton.isASCII(result)) {
         throw new WrongPasswordException()
       }
 
@@ -44,21 +45,32 @@ export default {
   },
 
   actions: {
-    async create ({ commit, getters, dispatch }, { xprv, name, password }) {
+    async create ({ commit, getters, dispatch }, { xprv, phrase, name, password }) {
       const id = v4()
 
       commit('push', {
         id,
         data: {
+          phraseHash: await toSHA256(phrase),
+          passwordHash: await toSHA256(password),
           name: name || i18n.global.t('global.account') + ' #' + (getters.count + 1),
           xprv: await ton.encrypt({
             password,
             data: xprv
+          }),
+          phrase: await ton.encrypt({
+            password,
+            data: phrase
           })
         }
       })
 
-      dispatch('wallets/create', { accountId: id, xprv, password }, { root: true })
+      commit('select', id)
+
+      await dispatch('wallets/create', {
+        password,
+        account: id
+      }, { root: true })
     }
   }
 }

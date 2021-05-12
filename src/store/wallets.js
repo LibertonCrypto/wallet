@@ -1,6 +1,7 @@
 import { v4 } from 'uuid'
 import { ton } from '@utils/ton'
 import { i18n } from '@utils/i18n'
+import { toSHA256 } from '@utils/convert'
 import WrongPasswordException from '../utils/exceptions/WrongPasswordException'
 
 export default {
@@ -61,10 +62,10 @@ export default {
   },
 
   actions: {
-    async create ({ commit, getters, rootState, rootGetters }, { name, password }) {
-      const accountId = rootState.accounts.selectedId
-      const index = getters.forAccount(accountId).length
+    async create ({ commit, getters, rootState, rootGetters }, { name, password, account }) {
+      const accountId = account || rootState.accounts.selectedId
 
+      const index = getters.forAccount(accountId).length
       const xprv = await rootGetters['accounts/getPrivateKey']({
         password,
         id: accountId
@@ -74,12 +75,15 @@ export default {
         xprv, index
       })
 
+      const id = v4()
+
       commit('push', {
-        id: v4(),
+        id,
         data: {
           index,
           accountId,
           public: keys.public,
+          passwordHash: await toSHA256(password),
           secret: await ton.encrypt({
             password,
             data: keys.secret
@@ -87,21 +91,8 @@ export default {
           name: name || i18n.global.t('global.wallet') + ' #' + (index + 1)
         }
       })
-    },
 
-    async update ({ getters, rootState }, { network = null, account = null, id }) {
-      const wallet = getters.getWallet({
-        id,
-        account: account || getters.current.id
-      })
-
-      const currentNetwork = rootState.settings.network
-
-      if (!wallet.networks[currentNetwork]) {
-        wallet.networks[currentNetwork] = {}
-      }
-
-      Object.assign(wallet.networks[currentNetwork], await ton.accountShort(wallet.data.public))
+      commit('select', id)
     }
   }
 }

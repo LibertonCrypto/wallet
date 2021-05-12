@@ -61,6 +61,7 @@
     }
   },
   "home": {
+    "select_wallet": "Select wallet",
     "tabs": {
       "messages": "Messages",
       "transactions": "Transactions"

@@ -1,6 +1,6 @@
 <template>
   <div class="home__default-message" v-if="! wallet.id">
-    {{ $t('home.you_need_to_select_wallet') }}
+    {{ $t('home.select_wallet') }}
   </div>
 
   <template v-else-if="deployment">

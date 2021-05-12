@@ -1,9 +1,9 @@
 <template>
-  <div class="welcome">
-    <h1 class="heading">{{ $t('create.heading') }}</h1>
+  <div class="create">
+    <h5 class="create__heading">{{ $t('create.heading') }}</h5>
 
-    <div class="welcome__phrase-container">
-      <div class="welcome__phrase-header">
+    <div class="create__phrase-container">
+      <div class="create__phrase-header">
         <q-select dense
                   filled
                   emit-value
@@ -32,17 +32,17 @@
         <q-btn color="white" text-color="black" class="on-right" @click="generate">
           <q-icon name="las la-redo-alt" class="on-left" /> {{ $t('create.buttons.generate') }}
         </q-btn>
-        <a href="#" class="welcome__generate" @click.prevent="generate">{{ }}</a>
+        <a href="#" class="create__generate" @click.prevent="generate">{{ }}</a>
       </div>
 
-      <div class="welcome__phrase" v-if="mode === 'generate'">
+      <div class="create__phrase" v-if="mode === 'generate'">
         {{ createOptions.phrase }}
       </div>
 
       <q-input square dense filled v-model="createOptions.phrase" class="q-mb-md" v-else
                :label="$t('create.phrase')"></q-input>
 
-      <q-banner class="welcome__warning">
+      <q-banner class="create__warning">
         <q-icon name="las la-exclamation-circle" /> {{ $t('create.phrase_alert') }}
       </q-banner>
 
@@ -131,9 +131,10 @@
       xprv,
       name: createOptions.name,
       password: password.value,
+      phrase: createOptions.phrase,
     })
 
-    await r.push('/' + locale)
+    await r.push('/')
   }
 
   /*

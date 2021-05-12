@@ -1,9 +1,16 @@
 export default `query ($address: String!) {
-  transactions (filter: {
-    account_addr: {
-      eq: $address
+  transactions (
+    filter: {
+      account_addr: {
+        eq: $address
+      }
     }
-  }) {
+    
+    orderBy: [{
+      path: "lt"
+      direction: DESC
+    }]
+  ) {
     id
     aborted
     status

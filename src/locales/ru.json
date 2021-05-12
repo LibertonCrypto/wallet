@@ -19,14 +19,14 @@
     }
   },
   "create": {
-    "account_name": "Account name",
-    "words_count": "{n} words",
-    "phrase": "This is your seed phrase",
-    "heading": "Don't you have an account yet?",
-    "phrase_alert": "Warning! Losing or compromising your seed phrase will result in losing access to your account and all your funds",
+    "account_name": "Название аккаунта",
+    "words_count": "{n} слов(а)",
+    "phrase": "Ваша фраза",
+    "heading": "Создание аккаунта",
+    "phrase_alert": "Внимание! Утрата или утечка вашей мастер-фразы приведет к потере аккаунта и всех ваших средств",
     "buttons": {
-      "generate": "Generate new",
-      "restore": "Restore from seed phrase"
+      "generate": "Сгенерировать еще раз",
+      "restore": "Восстановить из фразы"
     }
   },
   "receive": {
@@ -57,6 +57,7 @@
     }
   },
   "home": {
+    "select_wallet": "Выберите кошелек",
     "tabs": {
       "messages": "Сообщения",
       "transactions": "Транзакции"

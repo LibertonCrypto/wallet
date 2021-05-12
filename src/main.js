@@ -1,10 +1,10 @@
 import store from './store'
 import App from './App.vue'
+import { Quasar } from 'quasar'
 import { createApp } from 'vue'
 import TonClient from './utils/ton'
 import extension from 'extensionizer'
 import { router } from './utils/router'
-import { Quasar, QSelect, QIcon } from 'quasar'
 import iconSet from 'quasar/icon-set/line-awesome'
 import { i18n, loadLocaleMessages, setI18nLanguage } from './utils/i18n'
 
