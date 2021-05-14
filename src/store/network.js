@@ -18,12 +18,12 @@ const defaultTokens = [
   {
     id: 0,
     name: 'TON Crystal',
-    image: '/tokens/crystal.png'
+    image: '/img/tokens/crystal.png'
   },
   {
     id: 1,
     name: 'TON Ruby',
-    image: '/tokens/ruby.png'
+    image: '/img/tokens/ruby.png'
   }
 ]
 
