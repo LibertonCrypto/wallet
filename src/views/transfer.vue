@@ -1,23 +1,23 @@
 <template>
   <h6 class="q-mt-none">{{ $t('transfer.heading') }}</h6>
   <q-input dense :label="$t('transfer.recipient')" class="q-mb-md"
-           v-model="transferData.recipient"></q-input>
+           v-model="transferInput.recipient"></q-input>
 
   <q-input dense :label="$t('transfer.amount')" class="q-mb-md"
-           v-model="transferData.amount"></q-input>
+           v-model="transferInput.amount"></q-input>
 
   <q-input dense :label="`${$t('transfer.message')} (${$t('global.optional')})`" class="q-mb-md"
-           v-model="transferData.comment"></q-input>
+           v-model="transferInput.comment"></q-input>
 
-  <account-password v-model="transferData.password" v-model:error="transferData.passwordError" />
+  <account-password v-model="transferInput.password" v-model:error="transferState.passwordError" />
 
-  <span class="text-grey q-mb-md" v-if="fee > 0">
-    {{ $t('transfer.fee') }} ≈ {{ fromNano(fee, 4) }}
+  <span class="text-grey q-mb-md" v-if="transferState.fee > 0">
+    {{ $t('transfer.fee') }} ≈ {{ fromNano(transferState.fee, 4) }}
   </span>
 
   <div>
-    <q-btn class="bg-primary text-white on-left" @click="transfer" :loading="transferData.isActive"
-           :disable="! transferAvailable">
+    <q-btn class="bg-primary text-white on-left" @click="transfer" :loading="transferState.isActive"
+           :disable="! transferState.available">
       {{ $t('transfer.buttons.transfer') }}
     </q-btn>
 
@@ -31,66 +31,90 @@
   import { useStore } from 'vuex'
   import { useRouter } from 'vue-router'
   import { toNano, fromNano } from '@utils/convert'
-  import { reactive, watchEffect, ref, defineProps, useContext, defineEmit, computed } from 'vue'
+  import { reactive, watch, toRefs, computed } from 'vue'
 
   import AccountPassword from '../components/ui/account-password.vue'
   import WrongPasswordException from "@utils/exceptions/WrongPasswordException";
 
-  const fee = ref(0)
   const router = useRouter()
   const { dispatch, getters } = useStore()
+  const wallet = computed(() => getters['wallets/current'])
+  const deployment = computed(() => wallet.value ? getters['deployments/forWallet'](wallet.value.id) : false)
 
-  const transferData = reactive({
+  const transferInput = reactive({
     amount: '',
     comment: '',
     recipient: '',
     password: '',
-    passwordError: false,
+  })
 
+  const transferState = reactive({
     isActive: false,
+    fee: BigInt(0),
+    passwordError: false,
+    total: computed(() => transferState.fee + BigInt(toNano(transferInput.amount))),
+    available: computed(() => {
+      return BigInt(deployment.value.balance) >= transferState.total
+    })
   })
 
-  const wallet = computed(() => getters['wallets/current'])
-  const deployment = computed(() => wallet.value.id ? getters['deployments/forWallet'](wallet.value.id) : false)
-
-  const transferAvailable = computed(() => {
-    return fee.value > 0 && BigInt(deployment.value.balance) >= BigInt(fee.value) + BigInt(toNano(transferData.amount))
-  })
-
-  const transferPayload = computed(() => ({
+  const getTransferPayload = () => ({
     estimation: false,
     deploymentId: deployment.value.id,
-    password: transferData.password,
+    password: transferInput.password,
     data: {
-      amount: transferData.amount,
-      comment: transferData.comment,
-      recipient: transferData.recipient,
+      comment: transferInput.comment,
+      recipient: transferInput.recipient,
+      amount: toNano(transferInput.amount),
     }
-  }))
+  })
 
-  watchEffect(async () => {
-    const value = transferPayload.value
+  watch(() => toRefs(transferInput), async () => {
+    const passwordCheck = await getters['accounts/passwordCheck']({
+      password: transferInput.password,
+    })
+
+    if (! passwordCheck)
+    {
+      if (transferInput.password.length) {
+        transferState.passwordError = true
+      }
+
+      return false
+    }
 
     try {
-      fee.value = await dispatch('deployments/transfer', { ...value, estimation: true })
+      const estimatedFee = await dispatch('deployments/transfer', { ...getTransferPayload(), estimation: true })
+
+      transferState.fee = BigInt(estimatedFee)
     } catch (e) {}
   })
 
   const transfer = async () => {
-    transferData.isActive = true
+    const passwordCheck = await getters['accounts/passwordCheck']({
+      password: transferInput.password,
+    })
+
+    if (! passwordCheck) {
+      transferState.passwordError = true
+
+      return false
+    }
+
+    transferState.isActive = true
 
     try {
-      await dispatch('deployments/transfer', transferPayload.value)
+      await dispatch('deployments/transfer', getTransferPayload())
       await dispatch('deployments/fetch', deployment.value.id)
 
       router.push({ name: 'home' })
     } catch (e) {
       if (e instanceof WrongPasswordException) {
-        transferData.passwordError = true
+        transferState.passwordError = true
       }
     }
 
-    transferData.isActive = false
+    transferState.isActive = false
   }
 
   /*
