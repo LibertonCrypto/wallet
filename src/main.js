@@ -27,12 +27,12 @@ app.use(router)
 
 loadLocaleMessages(i18n, 'en')
   .then(async () => {
+    // Select current network to set TonClient endpoints url
+    store.commit('network/select', store.state.network.selectedId)
+
     app.mount('#app')
 
     await loadLocaleMessages(i18n, store.state.settings.locale)
 
     setI18nLanguage(i18n, store.state.settings.locale)
-
-    // Select current network to set TonClient endpoints url
-    store.commit('network/select', store.state.network.selectedId)
   })
