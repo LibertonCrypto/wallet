@@ -51,39 +51,62 @@ export default {
   },
 
   actions: {
-    async preview ({ commit, rootState }, { contract, wallet }) {
+    async preview ({ commit, rootState, rootGetters }, { contract, wallet, password }) {
       const { address } = await ton.unsignedDeployMessage({
         contract,
         public: wallet.public
       })
 
+      let fee = 0
       const networkId = rootState.network.selectedId
       const account = await ton.accountShort(address)
 
-      if (account && account.acc_type === 1) {
-        const contract = getContractByHash(account.code_hash)
+      if (account) {
+        if (account.acc_type === 1) {
+          const foundContract = getContractByHash(account.code_hash)
 
-        commit('upsert', {
-          address,
-          networkId,
-          walletId: wallet.id,
-          contract: contract ? contract.slug : 'unknown',
-          ...only(account, ['acc_type', 'balance', 'boc'])
-        })
+          console.log(foundContract, account.code_hash, getContractByHash(account.code_hash))
+
+          commit('upsert', {
+            address,
+            networkId,
+            walletId: wallet.id,
+            contract: foundContract ? foundContract.slug : 'unknown',
+            ...only(account, ['acc_type', 'balance', 'boc'])
+          })
+        } else if (password) {
+          // Fee estimation
+          const message = await ton.createDeployMessage(contract, {
+            public: wallet.public,
+            secret: await rootGetters['wallets/getDecrypted']({
+              password,
+              id: wallet.id,
+              field: 'secret'
+            })
+          })
+
+          fee = await ton.estimateTransactionFee({
+            message,
+            contract,
+            account: account.boc
+          })
+        }
       }
 
       return {
         address,
-        balance: account ? account.balance : 0
+        fee: BigInt(fee),
+        balance: BigInt(account ? account.balance : 0)
       }
     },
 
     async run ({ commit, rootGetters, rootState }, { contract, wallet, password }) {
       const networkId = rootState.network.selectedId
 
-      const secret = await rootGetters['wallets/getPrivateKey']({
+      const secret = await rootGetters['wallets/getDecrypted']({
         password,
-        id: wallet.id
+        id: wallet.id,
+        field: 'secret'
       })
 
       const { transaction } = await ton.deploy(contract, {
@@ -94,6 +117,7 @@ export default {
       commit('upsert', {
         networkId,
         walletId: wallet.id,
+        contract: contract.slug,
         acc_type: transaction.end_status,
         address: transaction.account_addr
       })
@@ -111,10 +135,23 @@ export default {
       const deployment = state.items[id]
       const data = await ton.accountShort(deployment.address)
 
+      let insertContract = {}
+
+      if (deployment.contract === 'unknown') {
+        const foundContract = getContractByHash(data.code_hash)
+
+        if (foundContract) {
+          insertContract = {
+            contract: foundContract.slug
+          }
+        }
+      }
+
       commit('upsert', {
         address: deployment.address,
         networkId: deployment.networkId,
 
+        ...insertContract,
         ...only(data, ['balance', 'boc'])
       })
     },
@@ -124,8 +161,9 @@ export default {
       const contract = getContractBySlug(deployment.contract)
       const walletData = rootState.wallets.items[deployment.walletId]
 
-      const secret = await rootGetters['wallets/getPrivateKey']({
+      const secret = await rootGetters['wallets/getDecrypted']({
         password,
+        field: 'secret',
         id: deployment.walletId
       })
 
@@ -136,12 +174,9 @@ export default {
       }
 
       const params = {
+        data,
         wallet,
-        contract,
-        data: {
-          ...data,
-          amount: toNano(data.amount)
-        }
+        contract
       }
 
       if (estimation) {

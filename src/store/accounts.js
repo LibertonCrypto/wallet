@@ -2,7 +2,7 @@ import { v4 } from 'uuid'
 import { ton } from '@utils/ton'
 import { i18n } from '@utils/i18n'
 import { toSHA256 } from '@utils/convert'
-import WrongPasswordException from '../utils/exceptions/WrongPasswordException'
+import { getDecrypted, passwordCheck } from './helpers'
 
 export default {
   namespaced: true,
@@ -25,23 +25,10 @@ export default {
   },
 
   getters: {
+    getDecrypted,
+    passwordCheck,
     count: state => state.ids.length,
-    current: state => state.items[state.selectedId],
-
-    getPrivateKey: state => async ({ id, password }) => {
-      const account = state.items[id]
-
-      const result = await ton.decrypt({
-        password,
-        ...account.xprv
-      })
-
-      if (!ton.isASCII(result)) {
-        throw new WrongPasswordException()
-      }
-
-      return result
-    }
+    current: state => state.items[state.selectedId]
   },
 
   actions: {

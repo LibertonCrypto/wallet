@@ -2,7 +2,7 @@ import { v4 } from 'uuid'
 import { ton } from '@utils/ton'
 import { i18n } from '@utils/i18n'
 import { toSHA256 } from '@utils/convert'
-import WrongPasswordException from '../utils/exceptions/WrongPasswordException'
+import { current, getDecrypted, passwordCheck, withIds } from './helpers'
 
 export default {
   namespaced: true,
@@ -29,13 +29,10 @@ export default {
   },
 
   getters: {
-    selected: state => id => state.items[id],
-    current: state => ({ id: state.selectedId, ...state.items[state.selectedId] }),
-
-    withIds (state) {
-      return Object.entries(state.items)
-        .map(([id, data]) => ({ id, ...data }))
-    },
+    withIds,
+    current,
+    getDecrypted,
+    passwordCheck,
 
     forAccount (state, getters, rootState) {
       return id => {
@@ -43,21 +40,6 @@ export default {
 
         return getters.withIds.filter(w => w.accountId === accountId)
       }
-    },
-
-    getPrivateKey: state => async ({ id, password }) => {
-      const wallet = state.items[id]
-
-      const result = await ton.decrypt({
-        password,
-        ...wallet.secret
-      })
-
-      if (!ton.isHex(result)) {
-        throw new WrongPasswordException()
-      }
-
-      return result
     }
   },
 
@@ -66,7 +48,7 @@ export default {
       const accountId = account || rootState.accounts.selectedId
 
       const index = getters.forAccount(accountId).length
-      const xprv = await rootGetters['accounts/getPrivateKey']({
+      const xprv = await rootGetters['accounts/getDecrypted']({
         password,
         id: accountId
       })

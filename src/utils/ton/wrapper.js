@@ -117,7 +117,11 @@ export class TonWrapper {
   }
 
   async createDeployMessage(contract, keys) {
-    return this.client.abi.encode_message(contract.getDeployParams(keys))
+    const params = contract.getDeployParams(keys)
+
+    const { message } = await this.client.abi.encode_message(params)
+
+    return message
   }
 
   isHex (str) {

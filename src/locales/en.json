@@ -56,7 +56,7 @@
     "steps": {
       "select_contract": "Select wallet contract",
       "account_password": "Enter your account password",
-      "send_fees": "Send at least 0.1 TON to your predicted address",
+      "send_fees": "Send at least {n} TON to your predicted address",
       "everything_ready": "You're good to go!"
     }
   },

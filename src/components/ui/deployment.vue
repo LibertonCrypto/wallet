@@ -21,7 +21,19 @@
     <img src="/img/steps/2.png" class="deployment__step-n" />
 
     <div class="deployment__step-content">
-      <h5 class="deployment__step-title">{{ $t('deployment.steps.send_fees') }}</h5>
+      <h5 class="deployment__step-title">{{ $t('deployment.steps.account_password') }}</h5>
+
+      <account-password v-model="deployment.password" v-model:error="deployment.passwordError" />
+    </div>
+  </div>
+
+  <div class="deployment__step">
+    <img src="/img/steps/3.png" class="deployment__step-n" />
+
+    <div class="deployment__step-content">
+      <h5 class="deployment__step-title">
+        {{ $t('deployment.steps.send_fees', { n: deployment.fee > 0 ? fromNano(deployment.fee, 4, 'up') : 0.1 }) }}
+      </h5>
 
       <q-input dense filled disable v-model="deployment.address"
                :label="$t('deployment.predicted_address')" bottom-slots>
@@ -33,22 +45,16 @@
   </div>
 
   <div class="deployment__step">
-    <img src="/img/steps/3.png" class="deployment__step-n" />
-
-    <div class="deployment__step-content">
-      <h5 class="deployment__step-title">{{ $t('deployment.steps.account_password') }}</h5>
-
-      <account-password v-model="deployment.password" v-model:error="deployment.passwordError" />
-    </div>
-  </div>
-
-  <div class="deployment__step">
     <img src="/img/steps/4.png" class="deployment__step-n" />
 
     <div class="deployment__step-content">
       <h5 class="deployment__step-title">{{ $t('deployment.steps.everything_ready') }}</h5>
 
-      <q-btn @click="deploy" :disable="deployment.addressBalance < 0.1"
+      <div class="text-grey q-mb-md" v-if="deployment.fee > 0">
+        {{ $t('transfer.fee') }} ≈ {{ fromNano(deployment.fee, 4) }}
+      </div>
+
+      <q-btn @click="deploy" :disable="! deployment.isReady"
              :loading="deployment.isActive" class="bg-primary text-white">
         {{ $t('global.buttons.deploy') }}
       </q-btn>
@@ -75,8 +81,10 @@
     address: '',
     password: '',
     contract: null,
+    isReady: false,
     isActive: false,
     addressBalance: 0,
+    fee: BigInt(0),
     passwordError: false,
   })
 
@@ -99,21 +107,40 @@
 
     const contract = walletContracts.find(c => c.slug === deployment.contract.value)
 
-    const { address, balance } = await dispatch('deployments/preview', {
+    const { address, balance, fee } = await dispatch('deployments/preview', {
       contract,
-      wallet: props.wallet
+      wallet: props.wallet,
+      password: deployment.password
     })
 
-    if (balance >= 0.1) {
+    if (fee > 0 && balance >= fee)
+    {
       clearInterval(interval)
+      deployment.isReady = true
+    }
+
+    const passwordCheck = await getters['wallets/passwordCheck']({
+      password: deployment.password,
+    })
+
+    if (! passwordCheck)
+    {
+      if (deployment.password.length) {
+        deployment.passwordError = true
+      }
     }
 
     deployment.address = address
+    deployment.fee = BigInt(fee)
     deployment.addressBalance = balance
   }
 
   const deploy = async () => {
-    if (! deployment.password) {
+    const passwordCheck = await getters['wallets/passwordCheck']({
+      password: deployment.password
+    })
+
+    if (! passwordCheck) {
       deployment.passwordError = true
 
       return false
@@ -123,17 +150,11 @@
 
     const contract = walletContracts.find(c => c.slug === deployment.contract.value)
 
-    try {
-      await dispatch('deployments/run', {
-        contract,
-        wallet: props.wallet,
-        password: deployment.password
-      })
-    } catch (e) {
-      if (e instanceof WrongPasswordException) {
-        deployment.passwordError = true
-      }
-    }
+    await dispatch('deployments/run', {
+      contract,
+      wallet: props.wallet,
+      password: deployment.password
+    })
 
     deployment.isActive = false
   }

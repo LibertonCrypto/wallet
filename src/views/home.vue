@@ -1,5 +1,5 @@
 <template>
-  <div class="home__default-message" v-if="! wallet.id">
+  <div class="home__default-message" v-if="! wallet">
     {{ $t('home.select_wallet') }}
   </div>
 
@@ -48,7 +48,7 @@
   const showReceiveDialog = ref(false)
   const network = computed(() => state.network.selectedId)
   const wallet = computed(() => getters['wallets/current'])
-  const deployment = computed(() => wallet.value.id ? getters['deployments/forWallet'](wallet.value.id) : false)
+  const deployment = computed(() => wallet.value ? getters['deployments/forWallet'](wallet.value.id) : false)
 
   const fetch = () => {
     if (deployment.value) {

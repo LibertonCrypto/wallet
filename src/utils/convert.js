@@ -14,10 +14,13 @@ export async function toSHA256 (string) {
   return sha256(string)
 }
 
-export function fromNano (val, precision = 3) {
+export function fromNano (val, precision = 3, round = 'down') {
   const s = 10 ** precision
 
-  return Number(BigInt(val) * BigInt(s) / BigInt(1e9)) / s
+  const add = round === 'up' ? 10 ** (9 - precision) : 0
+  const total = (BigInt(val) + BigInt(add)) * BigInt(s) / BigInt(1e9)
+
+  return Number(total) / s
 }
 
 export function toNano (amount) {

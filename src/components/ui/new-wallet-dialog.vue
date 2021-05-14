@@ -53,24 +53,20 @@
       }
 
       const create = async () => {
-        if (! newWallet.password) {
+        const passwordCheck = await getters['accounts/passwordCheck']({
+          password: newWallet.password,
+        })
+
+        if (! passwordCheck) {
           newWallet.error = true
 
           return false
         }
 
-        try {
-          await dispatch('wallets/create', {
-            name: newWallet.name,
-            password: newWallet.password,
-          })
-        } catch (e) {
-          if (e instanceof WrongPasswordException) {
-            newWallet.error = true
-          }
-
-          return false
-        }
+        await dispatch('wallets/create', {
+          name: newWallet.name,
+          password: newWallet.password,
+        })
 
         newWallet.name = ''
         newWallet.password = ''
