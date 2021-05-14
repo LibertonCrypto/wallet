@@ -1,8 +1,9 @@
 import SafeMultisig from './SafeMultisigWallet'
+import SetcodeMultisigWallet from './SetcodeMultisigWallet'
 import InternalTransferContract from './InternalTransfer'
 
-export const wallets = [SafeMultisig]
 export const InternalTransfer = InternalTransferContract
+export const wallets = [SafeMultisig, SetcodeMultisigWallet]
 
 export const getContractByHash = hash => {
   return wallets.find(w => w.hash === hash)
