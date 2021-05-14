@@ -1,9 +1,25 @@
 import path from 'path'
+import process from 'process'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import copy from 'rollup-plugin-copy'
 import eslint from "@rollup/plugin-eslint"
 import { base64 } from 'rollup-plugin-base64'
+
+const target = process.env.BUNDLE_TARGET || 'default'
+
+const manifestCopy = (t) => {
+  const sourceFile = {
+    'default': 'base.json',
+    'chrome': 'base.json', // TODO: v3 WASM support
+  }[t]
+
+  return {
+    dest: 'public',
+    rename: 'manifest.json',
+    src: `manifest/${sourceFile}`,
+  }
+}
 
 export default defineConfig({
   build: {
@@ -11,9 +27,9 @@ export default defineConfig({
     polyfillDynamicImport: false,
   },
   resolve: {
-    alias: [
-      { find: '@utils', replacement: path.resolve(__dirname, './src/utils')  }
-    ],
+    alias: {
+      '@utils': path.resolve(__dirname, './src/utils')
+    }
   },
   plugins: [
     base64({ include: "**/*.tvc" }),
@@ -29,8 +45,10 @@ export default defineConfig({
       targets: [
         {
           dest: 'public',
-          src: path.resolve(__dirname, './node_modules/@tonclient/lib-web/tonclient.wasm'),
+          src: 'node_modules/@tonclient/lib-web/tonclient.wasm',
         },
+
+        manifestCopy(target)
       ],
       hook: 'buildStart',
     })

@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "build:chrome": "BUNDLE_TARGET=chrome vite build"
   },
   "dependencies": {
     "@quasar/extras": "^1.10.4",
