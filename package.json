@@ -1,10 +1,10 @@
 {
   "name": "liberton",
   "version": "1.1.0",
+  "description": "Liberton is free and safe non-custodial Free TON wallet.",
   "scripts": {
     "serve": "vite preview",
     "build": "vite build",
-    "build:chrome": "BUNDLE_TARGET=chrome vite build",
     "lint": "eslint src/**/*.{js,vue}",
     "lint:fix": "eslint --fix src/**/*.{js,vue}",
     "dev": "vite"

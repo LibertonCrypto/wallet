@@ -5,21 +5,6 @@ import vue from '@vitejs/plugin-vue'
 import copy from 'rollup-plugin-copy'
 import { base64 } from 'rollup-plugin-base64'
 
-const target = process.env.BUNDLE_TARGET || 'default'
-
-const manifestCopy = (t) => {
-  const sourceFile = {
-    default: 'base.json',
-    chrome: 'base.json', // TODO: v3 WASM support
-  }[t]
-
-  return {
-    dest: 'public',
-    rename: 'manifest.json',
-    src: `manifest/${sourceFile}`,
-  }
-}
-
 export default defineConfig({
   build: {
     // target: 'es6',
@@ -42,7 +27,11 @@ export default defineConfig({
           src: 'node_modules/@tonclient/lib-web/tonclient.wasm',
         },
 
-        manifestCopy(target),
+        {
+          dest: 'public',
+          rename: 'manifest.json',
+          src: `manifest/base.json`,
+        },
       ],
       hook: 'buildStart',
     }),
