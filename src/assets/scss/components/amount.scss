@@ -1,0 +1,16 @@
+.amount {
+  $n: &;
+
+  &__fraction {
+    color: #666;
+  }
+
+  &_positive {
+    color: #27ae60;
+
+    #{$n}__fraction {
+      opacity: .65;
+      color: #2ecc71;
+    }
+  }
+}

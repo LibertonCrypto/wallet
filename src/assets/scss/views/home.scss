@@ -1,45 +1,117 @@
 .home {
   flex: 1;
   display: flex;
-  margin: -3rem -2rem;
 
-  &__main-action {
+  &__sticky {
+    top: 2rem;
+    position: sticky;
+  }
+
+  &__loading {
+    height: 100%;
     display: flex;
-    padding: 0 1rem;
-    min-height: 3rem;
-    border-radius: 2px;
     align-items: center;
-    font-size: 1.25rem;
-    background: #f4f4f4;
+    justify-content: center;
+  }
 
-    &:hover {
-      cursor: pointer;
-    }
+  &__actions {
+    gap: 0 1rem;
+    display: grid;
+    margin-bottom: 2rem;
+    grid-template-columns: repeat(3, 1fr);
+  }
 
-    &_external {
-      color: #000;
-      max-width: 3rem;
-      margin-left: auto;
-      padding: 0 0 0 .5rem;
-      text-decoration: none;
-      justify-content: center;
-    }
+  &__subtitle {
+    color: #333;
+    margin-top: 0;
+    font-size: .75rem;
+    font-weight: bold;
+    margin-bottom: .25rem;
+    text-transform: uppercase;
+  }
 
-    .q-icon {
+  &__action-icon {
+    width: 1rem;
+    height: 1rem;
+    display: flex;
+    padding: 1rem;
+    margin-left: auto;
+    border-radius: 50%;
+    background: #e5e5e5;
+    align-items: center;
+    justify-content: center;
+
+    i {
+      color: #333;
       font-size: 2rem;
-      margin-right: .5rem;
     }
   }
 
-  &__wallet-list {
+  &__action {
+    grid-row: 1;
+    padding: 1rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    border-radius: .5rem;
+    justify-content: center;
+    transition: all 300ms ease;
+
+    &:hover {
+      cursor: pointer;
+      background-size: 110%;
+      transform: translateY(-.1rem);
+    }
+
+    &-text {
+      font-weight: bold;
+      font-size: 1.25rem;
+      text-shadow: 1px 1px 3px #555;
+    }
+
+    &_disabled {
+      filter: grayscale(75%);
+
+      &:hover {
+        cursor: default;
+        transform: none;
+        background-size: 100%;
+      }
+    }
+
+    &_call {
+      background: url('/img/buttons/2.png') no-repeat center center / 100%;
+    }
+
+    &_send {
+      background: url('/img/buttons/1.png') no-repeat center center / 100%;
+    }
+
+    &_receive {
+      background: url('/img/buttons/3.png') no-repeat center center / 100%;
+    }
+  }
+
+  &__heading {
+    margin-top: 0;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    font-size: 2.375rem;
+  }
+
+  &__assets {
     height: 100%;
     width: 20rem;
-    display: flex;
-    padding-bottom: 10px;
-    border-right: 2px solid #E9EBED;
+    padding-right: 2rem;
+  }
 
-    & > .q-scrollarea__container > .q-scrollarea__content {
-      flex-direction: column;
+  &__wallet-settings {
+    font-size: 1.25rem;
+    margin-right: .5rem;
+    transition: color 500ms ease;
+
+    &:hover {
+      color: var(--primary);
     }
   }
 
@@ -51,46 +123,5 @@
     font-size: 1.25rem;
     align-items: center;
     justify-content: center;
-  }
-
-  &__wallet {
-    flex: 1;
-
-    & > .q-scrollarea__container > .q-scrollarea__content {
-      padding: 1rem;
-      flex-direction: column;
-    }
-  }
-
-  &__token-list {
-    display: flex;
-    flex-direction: column;
-  }
-
-  &__token {
-    display: flex;
-    padding: 1rem;
-    align-items: center;
-
-    &:hover {
-      cursor: pointer;
-      background: #f2f6fa;
-    }
-
-    &_create-wallet .q-icon {
-      font-size: 1.5rem;
-      margin-right: .5rem;
-    }
-  }
-
-  &__token-image {
-    width: auto;
-    height: 2rem;
-    margin-right: 1rem;
-  }
-
-  &__token-name {
-    flex: 1;
-    font-size: 1.25rem;
   }
 }

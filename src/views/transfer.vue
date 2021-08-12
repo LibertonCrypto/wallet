@@ -1,125 +1,164 @@
 <template>
-  <h6 class="q-mt-none">{{ $t('transfer.heading') }}</h6>
-  <q-input dense :label="$t('transfer.recipient')" class="q-mb-md"
-           v-model="transferInput.recipient"></q-input>
+  <h1 class="home__heading">{{ $t('transfer.heading') }}</h1>
 
-  <q-input dense :label="$t('transfer.amount')" class="q-mb-md"
-           v-model="transferInput.amount"></q-input>
+  <div class="form-input">
+    <it-input
+      v-model="transferData.recipient"
+      prefix-icon="user"
+      class="transfer__input"
+      :label-top="$t('transfer.recipient')"
+      @update:model-value="onRecipientBlur"
+    ></it-input>
+  </div>
 
-  <q-input dense :label="`${$t('transfer.message')} (${$t('global.optional')})`" class="q-mb-md"
-           v-model="transferInput.comment"></q-input>
+  <it-alert
+    v-if="transferData.showAlert"
+    class="mb-1"
+    type="warning"
+    icon="exclamation-circle"
+    :body="$t('transfer.warning.' + transferData.showAlert)"
+    :title="$t('transfer.warning.title')"
+  />
 
-  <account-password v-model="transferInput.password" v-model:error="transferState.passwordError" />
+  <div class="input-group">
+    <div class="form-input">
+      <it-input
+        v-model="transferData.amount"
+        prefix-icon="gem"
+        class="transfer__input"
+        :label-top="$t('transfer.amount')"
+        :disabled="transferData.allBalance"
+      >
+      </it-input>
+    </div>
 
-  <span class="text-grey q-mb-md" v-if="transferState.fee > 0">
-    {{ $t('transfer.fee') }} ≈ {{ fromNano(transferState.fee, 4) }}
+    <div class="form-input">
+      <it-switch
+        v-model="transferData.allBalance"
+        type="primary"
+        :label="$t('transfer.allBalance')"
+      ></it-switch>
+    </div>
+  </div>
+
+  <div class="form-input">
+    <it-input
+      v-model="transferData.comment"
+      prefix-icon="comment"
+      :label-top="`${$t('transfer.message')} (${$t('global.optional')})`"
+    ></it-input>
+  </div>
+
+  <span v-if="transferData.fee > 0" class="">
+    {{ $t('transfer.fee') }} ≈ {{ fromNano(transferData.fee, 4) }}
   </span>
 
-  <div>
-    <q-btn class="bg-primary text-white on-left" @click="transfer" :loading="transferState.isActive"
-           :disable="! transferState.available">
+  <div class="transfer__buttons">
+    <it-button
+      type="primary"
+      class="on-left"
+      :loading="transferData.isActive"
+      :disabled="!transferData.available"
+      @click="onTransfer"
+    >
       {{ $t('transfer.buttons.transfer') }}
-    </q-btn>
+    </it-button>
 
-    <q-btn flat @click="$router.push('/')">
+    <it-button flat @click="$router.push('/')">
       {{ $t('global.buttons.back') }}
-    </q-btn>
+    </it-button>
   </div>
 </template>
 
 <script setup>
-  import { useStore } from 'vuex'
-  import { useRouter } from 'vue-router'
-  import { toNano, fromNano } from '@utils/convert'
-  import { reactive, watch, toRefs, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { toNano } from '@/utils/convert'
+import { reactive, watch, computed } from 'vue'
+import {
+  useConfirmation,
+  useTransfers,
+  useTon,
+  useDeployments,
+} from '@/features'
 
-  import AccountPassword from '../components/ui/account-password.vue'
-  import WrongPasswordException from "@utils/exceptions/WrongPasswordException";
+const ton = useTon()
+const router = useRouter()
+const { transfer } = useTransfers()
+const { confirm } = useConfirmation()
+const { current: deployment } = useDeployments()
 
-  const router = useRouter()
-  const { dispatch, getters } = useStore()
-  const wallet = computed(() => getters['wallets/current'])
-  const deployment = computed(() => wallet.value ? getters['deployments/forWallet'](wallet.value.id) : false)
-
-  const transferInput = reactive({
-    amount: '',
-    comment: '',
-    recipient: '',
-    password: '',
-  })
-
-  const transferState = reactive({
-    isActive: false,
-    fee: BigInt(0),
-    passwordError: false,
-    total: computed(() => transferState.fee + BigInt(toNano(transferInput.amount))),
-    available: computed(() => {
-      return BigInt(deployment.value.balance) >= transferState.total
-    })
-  })
-
-  const getTransferPayload = () => ({
-    estimation: false,
-    deploymentId: deployment.value.id,
-    password: transferInput.password,
-    data: {
-      comment: transferInput.comment,
-      recipient: transferInput.recipient,
-      amount: toNano(transferInput.amount),
-    }
-  })
-
-  watch(() => toRefs(transferInput), async () => {
-    const passwordCheck = await getters['accounts/passwordCheck']({
-      password: transferInput.password,
-    })
-
-    if (! passwordCheck)
-    {
-      if (transferInput.password.length) {
-        transferState.passwordError = true
-      }
-
-      return false
-    }
-
-    try {
-      const estimatedFee = await dispatch('deployments/transfer', { ...getTransferPayload(), estimation: true })
-
-      transferState.fee = BigInt(estimatedFee)
-    } catch (e) {}
-  })
-
-  const transfer = async () => {
-    const passwordCheck = await getters['accounts/passwordCheck']({
-      password: transferInput.password,
-    })
-
-    if (! passwordCheck) {
-      transferState.passwordError = true
-
-      return false
-    }
-
-    transferState.isActive = true
-
-    try {
-      await dispatch('deployments/transfer', getTransferPayload())
-      await dispatch('deployments/fetch', deployment.value.id)
-
-      router.push({ name: 'home' })
-    } catch (e) {
-      if (e instanceof WrongPasswordException) {
-        transferState.passwordError = true
-      }
-    }
-
-    transferState.isActive = false
-  }
+const transferData = reactive({
+  /*
+   * User Input
+   */
+  amount: '',
+  comment: '',
+  recipient: '',
+  password: '',
+  allBalance: false,
 
   /*
-   * Validation rules
+   * Other data
    */
-  const recipientRules = [val => val.length > 3 || t('send.rules.recipient')]
-  const amountRules = [val => val === password.value || t('welcome.passwords_do_not_match')]
+  showAlert: false,
+  isActive: false,
+  fee: BigInt(0),
+
+  /*
+   * Computed variables
+   */
+  available: computed(() => {
+    const amount = BigInt(toNano(transferData.amount))
+
+    return (
+      (amount > BigInt(0) || transferData.allBalance) &&
+      amount < BigInt(deployment.value.balance)
+    )
+  }),
+})
+
+watch(
+  () => transferData.allBalance,
+  () => {
+    transferData.amount = ''
+  }
+)
+
+const onRecipientBlur = async () => {
+  transferData.showAlert = false
+
+  const data = await ton.fetchAccounts([transferData.recipient])
+
+  if (!data.length) {
+    transferData.showAlert = 'not_found'
+  } else if (data[0].code_hash === 'null') {
+    transferData.showAlert = 'uninitialized'
+  }
+}
+
+const onTransfer = async () => {
+  const password = await confirm('transfer', {
+    k: 'v',
+  })
+
+  if (!password) {
+    return false
+  }
+
+  transferData.isActive = true
+
+  await transfer({
+    password,
+    deploymentId: deployment.value.id,
+    data: {
+      amount: transferData.amount,
+      comment: transferData.comment,
+      recipient: transferData.recipient,
+      allBalance: transferData.allBalance,
+    },
+  })
+
+  transferData.isActive = false
+  router.push('/')
+}
 </script>

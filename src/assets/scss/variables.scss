@@ -1,3 +1,28 @@
-$primary: #071a52;
-$button-shadow: $shadow-0;
-$button-shadow-active: $shadow-0;
+$primary: #6164ff;
+
+// bg mix - #121212
+
+.body--light {
+  --logo-color: #fff; // 071a52
+  --label-color: #666;
+  --primary: #{$primary};
+  --body-bg: #f3f3f5; //f2f2f2
+  --body-color: #000;
+  --wrapper-bg: #fff;
+  --hover-bg: #f2f6fa;
+  --border-color: #d3dae6;
+  --footer-bg: #111;
+}
+
+.body--dark {
+  --logo-color: #fafafa;
+  --label-color: #666;
+  //--body-bg: #181925;
+  --body-bg: #16151a;
+  --body-color: #fff;
+  //--wrapper-bg: #1e1e36;
+  --wrapper-bg: #141419;
+  --hover-bg: #181925;
+  --footer-bg: #1e272e;
+  --border-color: rgba(60, 60, 60, 0.26);
+}

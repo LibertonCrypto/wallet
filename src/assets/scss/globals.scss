@@ -1,8 +1,47 @@
+::-webkit-scrollbar {
+  width: .4rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #5a555e;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif;
+}
+
 body {
   margin: 0;
-  color: #000;
-  background: #fafafa;
-  font-family: 'Rubik', sans-serif;
+  color: var(--body-color);
+  background: var(--body-bg) !important;
+}
+
+hr {
+  border: 0;
+  padding: 0;
+  height: 1px;
+  margin: 1em 0;
+  display: block;
+  border-top: 1px solid var(--border-color);
+}
+
+.it-input {
+  font-size: 0.875rem;
+
+  &-wrapper {
+    height: 2.5rem;
+  }
+
+  &-icon {
+    color: #878787;
+    font-size: 1.25rem;
+  }
+}
+
+main {
+  flex: 1;
+  padding: 3rem 0;
 }
 
 #app {
@@ -15,43 +54,78 @@ body {
   display: flex;
   width: 100%;
   margin: 0 auto;
-  max-width: 64rem;
+  max-width: 70rem;
 }
 
-.q-scrollarea__content {
+.mb-1 {
+  margin-bottom: .5rem;
+}
+
+.mb-2 {
+  margin-bottom: 1rem;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+.buttons {
   display: flex;
+  margin-top: 1rem;
+
+  & > div, button:not(:last-of-type) {
+    margin-right: .75rem;
+  }
+
+  &.-on-right {
+    justify-content: flex-end;
+
+    & > div, button:not(:last-of-type) {
+      margin-right: 0;
+      margin-left: .75rem;
+    }
+  }
 }
 
-.q-select__dropdown-icon {
-  font-size: 1rem !important;
+.form-input {
+  margin-bottom: 1rem;
 }
 
-.q-btn {
-  .q-icon {
-    font-size: 1.25rem;
+.input-group {
+  & > .form-input:not(:last-child) {
+    margin-bottom: 0.5rem;
+  }
+}
 
-    &.on-left {
-      margin-right: .4rem;
-    }
+.on-left {
+  margin-right: .5rem;
+}
 
-    &.on-right {
-      margin-left: .4rem;
-    }
+.on-right {
+  margin-left: .5rem;
+}
+
+.copy {
+  display: flex;
+  align-items: center;
+
+  a {
+    color: var(--primary);
+    text-decoration: none !important;
+  }
+
+  &__icon {
+    font-size: 1.5rem;
+    margin-right: .5rem;
   }
 }
 
 .wrapper {
   flex: 1;
-  width: 100%;
+  padding: 2rem;
   background: #fff;
-  overflow: hidden;
-  border-radius: 2px;
-  height: calc(100vh - 20rem);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-
-  & > .q-scrollarea__container > .q-scrollarea__content {
-    padding: 3rem 2rem;
-  }
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .heading {

@@ -2,19 +2,35 @@
   display: flex;
   flex-direction: column;
 
-  &__id {
-    color: $grey-7;
+  &__meta {
+    color: #757575;
     font-size: .75rem;
+  }
+
+  &__comment {
+    margin-left: 1rem;
+  }
+
+  &__load-more {
+    display: flex;
+    margin-top: 2rem;
+    align-items: center;
+    justify-content: center;
   }
 
   &__item {
     display: flex;
     padding: 1rem;
     align-items: center;
+    transition: 500ms all ease;
+
+    &:not(:last-of-type) {
+      border-bottom: 1px solid var(--border-color);
+    }
 
     &:hover {
       cursor: pointer;
-      background: $grey-2;
+      background: var(--hover-bg);
     }
   }
 
@@ -23,7 +39,7 @@
 
     &_positive {
       font-weight: bold;
-      color: $green-13;
+      color: #757575;
     }
   }
 

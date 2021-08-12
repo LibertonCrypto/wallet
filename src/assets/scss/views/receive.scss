@@ -4,14 +4,23 @@
   align-items: center;
   justify-content: center;
 
-  &__dialog .q-card {
-    min-width: 44rem;
+  &__dialog {
+    min-width: 45rem;
+  }
+
+  &__label {
+    margin-bottom: .25rem;
+    color: var(--label-color);
   }
 
   &__code {
     width: 8rem;
     height: 8rem;
     margin-right: 1rem;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   &__address {

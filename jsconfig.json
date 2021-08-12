@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "paths": {
+            "@/features": ["./src/features"],
+            "@/utils": ["./src/utils"]
+        }
+    },
+    "checkJs": true,
+    "include": [
+        "./src/**/*"
+    ],
+}

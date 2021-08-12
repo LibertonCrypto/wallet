@@ -6,10 +6,10 @@ import InternalTransferContract from './InternalTransfer'
 export const InternalTransfer = InternalTransferContract
 export const wallets = [SafeMultisig, SetcodeMultisigWallet, SurfWallet]
 
-export const getContractByHash = hash => {
-  return wallets.find(w => w.hash === hash)
+export const getContractByHash = (hash) => {
+  return wallets.find((w) => w.hash === hash)
 }
 
-export const getContractBySlug = slug => {
-  return wallets.find(w => w.slug === slug)
+export const getContractBySlug = (slug) => {
+  return wallets.find((w) => w.slug === slug)
 }

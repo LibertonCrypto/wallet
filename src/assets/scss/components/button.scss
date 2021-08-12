@@ -1,3 +1,16 @@
+.it-btn {
+  &--primary {
+    background-color: var(--primary);
+    border: 1px solid var(--primary);
+    box-shadow: 0 2px 4px transparentize($primary, .6);
+
+    &:hover {
+      background: lighten($primary, 5%);
+      border: 1px solid lighten($primary, 5%);
+    }
+  }
+}
+
 .btn {
   font-size: 1.3rem;
   border-radius: 2px;

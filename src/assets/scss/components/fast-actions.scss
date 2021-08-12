@@ -1,0 +1,28 @@
+.fast-actions {
+  display: flex;
+  margin-bottom: 3rem;
+
+  &__item {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    background: #fff;
+    margin-right: 1rem;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    transition: all 300ms ease;
+    box-shadow: 0 4px 24px rgb(0 0 0 / 12%);
+
+    &:hover {
+      cursor: pointer;
+      transform: translateY(4px);
+      box-shadow: 0 12px 36px rgb(0 0 0 / 20%);
+    }
+
+    i {
+      color: #333;
+      font-size: 1.5rem;
+    }
+  }
+}

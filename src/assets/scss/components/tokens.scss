@@ -1,0 +1,41 @@
+.tokens {
+  &__list {
+    display: flex;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    flex-direction: column;
+  }
+
+  &__image {
+    width: auto;
+    height: 2rem;
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__name {
+    font-size: 1rem;
+    margin-bottom: .25rem;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    transition: 500ms all ease;
+    padding: .5rem 1rem .5rem 1rem;
+
+    &_aux {
+      opacity: .87;
+      font-weight: 500;
+      font-size: .9rem;
+
+      i {
+        font-size: 1.5rem;
+        margin-right: .5rem;
+        //color: var(--body-color);
+      }
+    }
+  }
+}

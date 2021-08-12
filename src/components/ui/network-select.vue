@@ -1,22 +1,27 @@
 <template>
-  <q-select dense :options="networkList" v-model="networkModel" dropdown-icon="las la-angle-down">
-    <template v-slot:selected-item="scope">
-      {{ currentNetwork.name }}
-    </template>
-  </q-select>
+  <div class="network-select">
+    <it-dropdown placement="top">
+      <i class="las la-plug network-select__icon"></i> {{ network.name }}
+
+      <template #menu>
+        <it-dropdown-menu>
+          <it-dropdown-item
+            v-for="n of list"
+            :key="n.id"
+            @click="select(n.id)"
+            >{{ n.name }}</it-dropdown-item
+          >
+        </it-dropdown-menu>
+      </template>
+    </it-dropdown>
+  </div>
 </template>
 
 <script setup>
-  import { computed } from 'vue'
-  import { useStore } from 'vuex'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+import { useNetworking, useModals } from '@/features'
 
-  const { state, getters, commit } = useStore()
-
-  const networkModel = computed({
-    get: () => state.network.selectedId,
-    set: (sel) => commit('network/select', sel.value)
-  })
-
-  const currentNetwork = computed(() => getters['network/current'])
-  const networkList = computed(() => getters["network/withIds"].map(n => ({ label: n.name, value: n.id })))
+const { show } = useModals()
+const { current: network, list, select } = useNetworking()
 </script>

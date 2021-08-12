@@ -6,20 +6,20 @@ export default {
   abi,
   slug: 'InternalTransfer',
 
-  getBodyParams: comment => {
+  getBodyParams: (comment) => {
     return {
       abi: {
         value: abi,
-        type: 'Contract'
+        type: 'Contract',
       },
       call_set: {
         function_name: 'transfer',
         input: {
-          comment: strToHex(comment)
-        }
+          comment: strToHex(comment),
+        },
       },
       is_internal: true,
-      signer: getSigner({})
+      signer: getSigner({}),
     }
-  }
+  },
 }

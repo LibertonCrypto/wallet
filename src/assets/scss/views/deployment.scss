@@ -1,6 +1,11 @@
 .deployment {
   &__step {
     display: flex;
+    margin-bottom: 1rem;
+  }
+
+  &__address {
+    font-size: .75rem;
   }
 
   &__step-n {
@@ -11,11 +16,30 @@
 
   &__step-title {
     margin-top: 0;
-    font-size: 1.25rem;
+    font-weight: 400;
+    font-size: 1.1rem;
     margin-bottom: .5rem;
   }
 
   &__step-content {
     flex: 1;
+
+    .it-select {
+      width: 65%;
+      min-width: 445px;
+    }
+
+    .it-select-option {
+      white-space: pre-wrap;
+    }
+  }
+
+  &__contract {
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+  }
+
+  &__contract-description {
+    opacity: .84;
   }
 }

@@ -1,8 +1,17 @@
 import { v4 } from 'uuid'
-import { ton } from '@utils/ton'
-import { i18n } from '@utils/i18n'
-import { toSHA256 } from '@utils/convert'
-import { current, getDecrypted, passwordCheck, withIds } from './helpers'
+import { ton } from '@/utils/ton'
+import { i18n } from '@/utils/i18n'
+import { toSHA256 } from '@/utils/convert'
+import {
+  push,
+  select,
+  update,
+  removeBy,
+  current,
+  withIds,
+  getDecrypted,
+  passwordCheck,
+} from './helpers'
 
 export default {
   namespaced: true,
@@ -10,22 +19,18 @@ export default {
   state: {
     ids: [],
     items: {},
-    selectedId: null
+    selectedId: null,
   },
 
   mutations: {
-    push (state, { id, data }) {
-      state.ids.push(id)
-      state.items[id] = data
-    },
+    push,
+    select,
+    update,
+    removeBy,
 
-    select (state, payload) {
-      state.selectedId = payload
-    },
-
-    resetSelect (state) {
+    resetSelect(state) {
       state.selectedId = null
-    }
+    },
   },
 
   getters: {
@@ -34,27 +39,31 @@ export default {
     getDecrypted,
     passwordCheck,
 
-    forAccount (state, getters, rootState) {
-      return id => {
+    forAccount(state, getters, rootState) {
+      return (id) => {
         const accountId = id || rootState.accounts.selectedId
 
-        return getters.withIds.filter(w => w.accountId === accountId)
+        return getters.withIds.filter((w) => w.accountId === accountId)
       }
-    }
+    },
   },
 
   actions: {
-    async create ({ commit, getters, rootState, rootGetters }, { name, password, account }) {
+    async create(
+      { commit, getters, rootState, rootGetters },
+      { name, password, account }
+    ) {
       const accountId = account || rootState.accounts.selectedId
 
       const index = getters.forAccount(accountId).length
       const xprv = await rootGetters['accounts/getDecrypted']({
         password,
-        id: accountId
+        id: accountId,
       })
 
       const keys = await ton.getKeyPair({
-        xprv, index
+        xprv,
+        index,
       })
 
       const id = v4()
@@ -68,13 +77,13 @@ export default {
           passwordHash: await toSHA256(password),
           secret: await ton.encrypt({
             password,
-            data: keys.secret
+            data: keys.secret,
           }),
-          name: name || i18n.global.t('global.wallet') + ' #' + (index + 1)
-        }
+          name: name || i18n.global.t('global.wallet') + ' #' + (index + 1),
+        },
       })
 
       commit('select', id)
-    }
-  }
+    },
+  },
 }

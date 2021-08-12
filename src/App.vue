@@ -1,15 +1,16 @@
 <template>
   <app-header />
 
-  <q-scroll-area class="wrapper container">
+  <main class="container">
     <router-view />
-  </q-scroll-area>
+  </main>
 
   <app-footer />
+  <app-modals />
 </template>
 
 <script setup>
-import "./assets/scss/app.scss"
-import AppHeader from "./components/layout/header.vue";
-import AppFooter from "./components/layout/footer.vue";
+import AppHeader from './components/layout/header.vue'
+import AppFooter from './components/layout/footer.vue'
+import AppModals from './components/layout/modals.vue'
 </script>

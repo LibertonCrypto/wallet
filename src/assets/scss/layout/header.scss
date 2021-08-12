@@ -1,6 +1,8 @@
 .header {
-  height: 5rem;
   display: flex;
+  height: 3.75rem;
+  position: relative;
+  background: #6164ff;
 
   .container {
     align-items: center;
@@ -9,8 +11,18 @@
   &__logo {
     flex: 1;
     color: $primary;
+    height: 1.25rem;
     font-weight: bold;
-    font-size: 1.25rem;
+
+    svg {
+      width: auto;
+      height: 1.25rem;
+      fill: var(--logo-color);
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 
   &__menu {

@@ -1,36 +1,79 @@
 {
+  "actions": {
+    "change_wallet": "Change wallet",
+    "wallet_settings": "Wallet settings",
+    "view_in_explorer": "View in Explorer"
+  },
+  "account-menu": {
+    "settings": "Settings",
+    "create": "Create new account",
+    "change": "Change account",
+    "backup_phrase": "Backup seed phrase"
+  },
+  "transactions": {
+    "from": "Transfer from",
+    "to": "Transfer to",
+    "deployment": "Wallet deployment"
+  },
   "global": {
+    "assets": "Assets",
     "wallet": "Wallet",
     "account": "Account",
     "optional": "optional",
     "password": "Password",
-    "view_in_explorer": "View in Explorer",
+    "fast_actions": "Fast Actions",
     "password_confirmation": "Password confirmation",
     "buttons": {
+      "save": "Save",
+      "copy": "Copy",
       "cancel": "Cancel",
       "create": "Create",
       "back": "Go back",
-      "continue": "Continue",
-      "deploy": "Deploy"
+      "deploy": "Deploy",
+      "delete": "Delete",
+      "confirm": "Confirm",
+      "continue": "Continue"
     },
     "validation": {
       "wrong_password": "Wrong password",
       "password_required": "Password required"
     }
   },
+  "contracts": {
+    "SurfWallet": {
+      "name": "Surf",
+      "description": "This contract is being used by Surf app."
+    },
+    "SafeMultisigWallet": {
+      "name": "Safe Multisig",
+      "description": "Best choice by default. Code cannot be replaced. That's why it called safe. (default)"
+    },
+    "SetcodeMultisigWallet": {
+      "name": "Setcode Multisig",
+      "description": "Code of this wallet can be replaced. Use it only if you know what you do."
+    }
+  },
   "create": {
+    "link": "Create or restore",
     "account_name": "Account name",
-    "words_count": "{n} words",
-    "phrase": "Enter your seed phrase",
-    "heading": "Don't you have an account yet?",
-    "phrase_alert": "Warning! Losing or compromising your seed phrase will result in losing access to your account and all your funds",
+    "words_count": "no words | {n} word | {n} words",
+    "heading": {
+      "default": "Create new account",
+      "first_time": "Don't you have an account yet?"
+    },
+    "phrase": {
+      "label": "Enter your seed phrase",
+      "heading": "Warning!",
+      "text": "Losing or compromising your seed phrase will result in losing access to your account and all your funds"
+    },
     "buttons": {
       "generate": "Generate new",
-      "restore": "Restore from seed phrase"
+      "generate_mode": "Switch to generate mode",
+      "restore_mode": "Switch to restore mode"
     },
     "validation": {
-      "length_required": "Password should be at least 4 symbols length",
-      "do_not_match": "Password do not match"
+      "length_required": "Password should be at least {n} symbols length",
+      "do_not_match": "Passwords do not match"
     }
   },
   "receive": {
@@ -43,9 +86,15 @@
     "amount": "Amount",
     "message": "Message",
     "fee": "Estimated fee",
+    "allBalance": "All balance",
     "recipient": "Recipient address",
     "buttons": {
       "transfer": "Transfer"
+    },
+    "warning": {
+      "title": "Warning!",
+      "not_found": "This account was not found. Check recipient address.",
+      "uninitialized": "You're trying to send money to uninitialized account. Check recipient address."
     }
   },
   "deployment": {
@@ -69,11 +118,52 @@
     "buttons": {
       "send": "Send",
       "receive": "Receive",
-      "create_wallet": "Create new wallet"
+      "call": "Call contract",
+      "load_more": "Load more",
+      "soon": "This feature will be available soon"
     }
   },
-  "newWalletDialog": {
-    "heading": "Create new wallet",
-    "wallet_name": "New wallet name"
+  "dialogs": {
+    "confirmation": {
+      "password": "Account password",
+      "heading": "Confirm your action"
+    },
+    "account": {
+      "select": {
+        "heading": "Accounts",
+        "hint": "Choose account",
+        "create": "Create account",
+        "wallets_count": "no wallets | {n} wallet | {n} wallets"
+      },
+      "settings": {
+        "name": "Name",
+        "heading": "Account settings"
+      }
+    },
+    "wallet": {
+      "create": {
+        "heading": "Create new wallet",
+        "name": "New wallet name"
+      },
+      "select": {
+        "heading": "Wallets",
+        "create": "Create wallet",
+        "select_hint": "Choose wallet"
+      },
+      "settings": {
+        "heading": "Wallet settings",
+        "name": "Wallet name"
+      }
+    },
+    "network": {
+      "create": {
+        "heading": "Create new network",
+        "name": "Network name",
+        "endpoints": "Endpoints"
+      }
+    }
+  },
+  "footer": {
+    "motto": "Liberton is free and safe non-custodial Free TON wallet."
   }
 }

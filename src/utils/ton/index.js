@@ -7,9 +7,9 @@ TonClient.useBinaryLibrary(libWeb)
 export const ton = new TonWrapper()
 
 export const plugin = {
-  install (app, options) {
+  install(app, options) {
     app.provide('ton', ton)
-  }
+  },
 }
 
 export default { ton, plugin }

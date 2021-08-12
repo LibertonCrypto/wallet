@@ -1,3 +1,35 @@
 .footer {
   padding: 1rem 0;
+  background-color: var(--footer-bg);
+
+  hr {
+    border-color: #333;
+  }
+
+  & > .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__selects, &__links {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__links {
+    font-size: .85rem;
+
+    a, a:visited, span {
+      color: #666;
+      font-weight: 500;
+      text-decoration: none;
+    }
+  }
+
+  &__theme-switch {
+    font-size: 2rem;
+    margin-left: auto;
+    color: var(--primary);
+  }
 }

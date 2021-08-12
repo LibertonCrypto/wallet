@@ -1,5 +1,6 @@
 .create {
   width: 100%;
+  padding: 2rem;
   flex-direction: column;
 
   &__heading {
@@ -10,19 +11,16 @@
   &__warning {
     margin-bottom: 1rem;
     border-style: solid;
-    border-color: $orange-6;
+    border-color: #fff;
     border-width: 1px 1px 1px 3px;
 
-    .q-icon {
+    .it-icon {
       font-size: 2rem;
     }
   }
 
   &__phrase {
-    font-size: 1.25rem;
-    padding: 1rem 2rem;
-    margin-bottom: 1rem;
-    background: rgba(0, 0, 0, .05);
+    margin-bottom: 2rem;
 
     &-container {
       width: 100%;
@@ -33,6 +31,16 @@
       display: flex;
       margin-bottom: 1rem;
       justify-content: flex-end;
+    }
+
+    .it-tag {
+      color: #000;
+      font-size: 1.1rem;
+      margin-bottom: .5rem;
+
+      &:not(:last-of-type) {
+        margin-right: .5rem;
+      }
     }
   }
 }

@@ -1,0 +1,13 @@
+.row {
+  width: 100%;
+  display: flex;
+  margin-left: -.5rem;
+  margin-right: -.5rem;
+  justify-content: space-between;
+
+  .col {
+    flex: 1;
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+}

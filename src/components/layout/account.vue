@@ -1,15 +1,19 @@
 <template>
   <div class="home">
-    <q-scroll-area class="home__wallet-list">
-      <wallet-list />
-    </q-scroll-area>
+    <div class="home__assets">
+      <div class="home__sticky">
+        <fast-actions />
+        <token-list />
+      </div>
+    </div>
 
-    <q-scroll-area class="home__wallet">
+    <div class="wrapper">
       <router-view />
-    </q-scroll-area>
+    </div>
   </div>
 </template>
 
 <script setup>
-  import WalletList from "../ui/wallet-list.vue";
+import TokenList from '../ui/token-list.vue'
+import FastActions from '../ui/fast-actions.vue'
 </script>

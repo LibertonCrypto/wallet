@@ -1,0 +1,50 @@
+.account-menu, .network-select {
+  &:hover {
+    cursor: pointer;
+  }
+
+  &__icon {
+    font-size: 1.75rem;
+    margin-right: .5rem;
+  }
+  
+  .it-select-option:first-of-type {
+    border-bottom: 1px solid #d3dae6;
+  }
+}
+
+.locale-select, .network-select, .account-menu {
+  color: #fff;
+  display: flex;
+  font-weight: bold;
+  font-size: 0.875rem;
+  align-items: center;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  .it-dropdown-trigger {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.locale-select {
+
+  img {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: .5rem;
+  }
+}
+
+.it-dropdown-item {
+  &:hover {
+    background: var(--primary);
+  }
+
+  &--divided {
+    border-bottom: 1px solid var(--border-color);
+  }
+}

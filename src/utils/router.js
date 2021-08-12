@@ -11,6 +11,7 @@ import AccountLayout from '../components/layout/account.vue'
  * Views
  */
 import Home from '../views/home.vue'
+import Deploy from '../views/deploy.vue'
 import Transfer from '../views/transfer.vue'
 import CreateAccount from '../views/create-account.vue'
 
@@ -18,33 +19,47 @@ const routes = [
   {
     name: 'create',
     path: '/create',
-    component: CreateAccount
+    component: CreateAccount,
   },
   {
     path: '/',
     component: AccountLayout,
+
     meta: {
-      accountRequired: true
+      accountRequired: true,
     },
 
     children: [
       {
         path: '/',
         name: 'home',
-        component: Home
+        component: Home,
+
+        meta: {
+          deploymentRequired: true,
+        },
       },
       {
         name: 'transfer',
         path: '/transfer',
-        component: Transfer
-      }
-    ]
-  }
+        component: Transfer,
+
+        meta: {
+          deploymentRequired: true,
+        },
+      },
+      {
+        path: '/deploy/:id',
+        name: 'deploy',
+        component: Deploy,
+      },
+    ],
+  },
 ]
 
 export const router = createRouter({
   routes,
-  history: createWebHashHistory()
+  history: createWebHashHistory(),
 })
 
 router.beforeEach(async (to, from, next) => {
@@ -56,6 +71,14 @@ router.beforeEach(async (to, from, next) => {
 
   if (to.meta?.accountRequired && store.getters['accounts/count'] === 0) {
     return next('/create')
+  }
+
+  if (to.meta?.deploymentRequired) {
+    const wallet = store.getters['wallets/current']
+
+    if (!store.getters['deployments/forWallet'](wallet.id)) {
+      return next('/deploy/' + wallet.id)
+    }
   }
 
   return next()
