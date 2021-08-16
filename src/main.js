@@ -9,7 +9,6 @@ import './assets/scss/app.scss'
  */
 import Equal from 'equal-vue'
 import { createApp } from 'vue'
-import extension from 'extensionizer'
 
 /*
  * Override components
@@ -36,14 +35,7 @@ import { i18n, loadLocaleMessages, setI18nLanguage } from './utils/i18n'
 /*
  * Features for startup
  */
-import { useTon, useNetworking, useDeployments } from '@/features'
-
-/*
- * Scripts for browser extension env
- */
-if (extension.runtime) {
-  import('./utils/extension')
-}
+import { useNetworking } from '@/features'
 
 /*
  * Vue app
@@ -66,8 +58,6 @@ app.component(ButtonOverride.name, ButtonOverride)
  * Always load en messages as fallback locale
  */
 loadLocaleMessages(i18n, 'en').then(async () => {
-  const ton = useTon()
-  const d = useDeployments()
   const { runWatcher } = useNetworking()
 
   store.commit('settings/toggleTheme', 'light') // store.state.settings.theme

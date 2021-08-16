@@ -1,5 +1,5 @@
 <template>
-  <div class="account-menu">
+  <div v-if="current" class="account-menu">
     <it-dropdown>
       <i class="las la-user account-menu__icon" /> {{ current.name }}
 
