@@ -34,6 +34,9 @@
       "confirm": "Confirm",
       "continue": "Continue"
     },
+    "notifications": {
+      "copied": "Copied to clipboard"
+    },
     "validation": {
       "wrong_password": "Wrong password",
       "password_required": "Password required"

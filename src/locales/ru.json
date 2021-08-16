@@ -35,6 +35,9 @@
       "confirm": "Подтвердить",
       "continue": "Продолжить"
     },
+    "notifications": {
+      "copied": "Скопировано в буфер обмена"
+    },
     "validation": {
       "wrong_password": "Неверный пароль",
       "password_required": "Требуется пароль"

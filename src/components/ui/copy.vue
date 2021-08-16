@@ -13,22 +13,23 @@
 </template>
 
 <script setup>
-import { getCurrentInstance } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useNotifications } from '@/features'
 
+const { t } = useI18n()
+const { notify } = useNotifications()
 const props = defineProps({
   content: [String, Array],
 })
-
-const message = getCurrentInstance().appContext.config.globalProperties.$Message
 
 const copy = () => {
   const method = Array.isArray(props.content) ? 'write' : 'writeText'
 
   navigator.clipboard[method](props.content).then(() => {
-    message({
+    notify({
       duration: 2e3,
       type: 'success',
-      text: 'Copied to clipboard!',
+      text: t('global.notifications.copied'),
     })
   })
 }
