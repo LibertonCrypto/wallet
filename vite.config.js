@@ -1,8 +1,8 @@
 import path from 'path'
-import process from 'process'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import copy from 'rollup-plugin-copy'
+import { version } from './package.json'
 import { base64 } from 'rollup-plugin-base64'
 
 export default defineConfig({
@@ -31,6 +31,8 @@ export default defineConfig({
           dest: 'public',
           rename: 'manifest.json',
           src: `manifest/base.json`,
+          transform: (content) =>
+            content.toString().replace('%version%', version),
         },
       ],
       hook: 'buildStart',
